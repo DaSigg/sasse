@@ -726,6 +726,9 @@ def read_sektionsfahren_rangliste(disziplin):
 def ermittle_rayon(sektion):
     if sektion in ('Luzern', 'Ottenbach', 'Bremgarten', 'Mellingen'):
         return 'Reuss'
+    elif sektion in ('Aarwangen', 'Bern', 'Bex', 'Genf', 'Ligerz', 'Murgenthal',
+                     'Solothurn', 'Thun', 'Wangen a A', 'Worblaufen', 'Wynau'):
+        return 'Bern'
     elif sektion in ('Bex', 'Genf'):
         return 'Romande'
     return ''
