@@ -563,7 +563,7 @@ def _mark_double_trouble(sorted_ds):
         if previous_row and previous_row['doppel'] and row['doppel']:
             previous_item = previous_row['doppel'][0]
             item = row['doppel'][0]
-            if item['startnummer'] == previous_item['startnummer']:
+            if item['startnummer'] == previous_item['startnummer'] and item['disziplin'] == previous_item['disziplin']:
                 previous_row['trouble'] = True
                 row['trouble'] = True
         previous_row = row
