@@ -2,16 +2,16 @@
 {% block nav_wettkampf %}selected{% endblock %}
 {% block content %}
 <style>
-    table.list tr.trouble {
+  table.list tr.trouble {
     background-color: red;
-    }
+  }
 </style>
 <p>
-<strong>Doppelstarter Einzelfahren.</strong>
-Anzeige der Mitglieder, die in mehr als einem Schiff gestartet sind und/oder
-als Doppelstarter bei der Eingabe der Startliste markiert wurden. Problemfälle
-werden rot hinterlegt (z.B. mehr als einmal gestartet aber nicht als
-Doppelstarter markiert).
+  <strong>Doppelstarter Einzelfahren.</strong>
+  Anzeige der Mitglieder, die in mehr als einem Schiff gestartet sind und/oder
+  als Doppelstarter bei der Eingabe der Startliste markiert wurden. Problemfälle
+  werden rot hinterlegt (z.B. mehr als einmal gestartet aber nicht als
+  Doppelstarter markiert).
 </p>
 <table class="list">
   <tr>
@@ -19,22 +19,26 @@ Doppelstarter markiert).
     <th>Normal</th>
     <th>Name</th>
     <th>Sektion</th>
+    <th>Problem</th>
   </tr>
   {% for row in doppelstarter %}
-  <tr class="{{row.trouble|yesno:"trouble,"}}">
+  <tr class="{{row.trouble|yesno:" trouble,"}}">
     <td>
-    {% for item in row.doppel %}
-    <a href="{% url 'teilnehmer_get' wettkampf.jahr wettkampf.name item.disziplin item.startnummer %}">{{item.startnummer}}</a>
-    {% endfor %}
+      {% for item in row.doppel %}
+      <a
+        href="{% url 'teilnehmer_get' wettkampf.jahr wettkampf.name item.disziplin item.startnummer %}">{{item.startnummer}}</a>
+      {% endfor %}
     </td>
     <td>
-    {% for item in row.normal %}
-    <a href="{% url 'teilnehmer_get' wettkampf.jahr wettkampf.name item.disziplin item.startnummer %}">{{item.startnummer}}</a>
-    {% endfor %}
+      {% for item in row.normal %}
+      <a
+        href="{% url 'teilnehmer_get' wettkampf.jahr wettkampf.name item.disziplin item.startnummer %}">{{item.startnummer}}</a>
+      {% endfor %}
     </td>
     <td>{{row.name}} {{row.vorname}}</td>
     <td>{{row.sektion}}</td>
+    <td>{{row.troubleTxt}}</td>
   </tr>
-{% endfor %}
+  {% endfor %}
 </table>
 {% endblock %}

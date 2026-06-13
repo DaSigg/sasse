@@ -456,6 +456,7 @@ def read_doppelstarter(wettkampf, disziplinart):
     grouped_ds = _group_doppelstarter(ds)
     sorted_ds = sorted(grouped_ds, key=_sort_doppelstarter_nummer)
     _mark_double_trouble(sorted_ds)
+    _mark_double_start_before(sorted_ds)
     return sorted_ds
 
 def _read_doppelstarter(wettkampf, disziplinart):
@@ -541,6 +542,10 @@ def _group_doppelstarter(doppelstarter):
         row['normal'] = normal
         if len(normal) != 1 or len(doppel) != 1:
             row['trouble'] = True
+            if len(normal) > 1:
+                row['troubleTxt'] = "Nicht als Doppelstarter markiert"
+            else:
+                row['troubleTxt'] = "Mehrfach als Doppelstarter markiert"
         result.append(row)
     return result
 
@@ -566,7 +571,18 @@ def _mark_double_trouble(sorted_ds):
             if item['startnummer'] == previous_item['startnummer'] and item['disziplin'] == previous_item['disziplin']:
                 previous_row['trouble'] = True
                 row['trouble'] = True
+                row['troubleTxt'] = "Mehr als ein Doppelstarter mit selber Startnr"
+                previous_row['troubleTxt'] = row['troubleTxt']
         previous_row = row
+
+def _mark_double_start_before(sorted_ds):
+    """
+    Doppelstarterstartnummer sollte immer grösser als Startnummer ohne Doppelstarter sein.
+    """
+    for row in sorted_ds:
+        if len(row['doppel']) > 0 and len(row['normal']) > 0 and row['normal'][0]['startnummer'] >= row['doppel'][0]['startnummer']:
+            row['trouble'] = True
+            row['troubleTxt'] = "Doppelstarter Startnr ist kleiner als normale Startnr"
 
 def read_sektionsfahren_gruppen_counts(disziplin, gruppe=None):
     cursor = connection.cursor()
