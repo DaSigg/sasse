@@ -10,6 +10,8 @@ from reportlab.lib.pagesizes import A4, landscape
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.styles import StyleSheet1
 from reportlab.lib.units import cm
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import BaseDocTemplate
 from reportlab.platypus import PageBreak
 from reportlab.platypus import Paragraph
@@ -22,12 +24,26 @@ from reportlab.platypus.flowables import DocExec
 from reportlab.platypus.frames import Frame
 
 PAGE_WIDTH, PAGE_HEIGHT = A4
+_fonts_registered = False
+
+def _register_fonts():
+    global _fonts_registered
+    if _fonts_registered:
+        return
+    font_dir = settings.STATIC_ROOT / 'sasse/fonts'
+    regular = font_dir / 'NotoSans-Regular.ttf'
+    bold = font_dir / 'NotoSans-Bold.ttf'
+    # Registering as Helvetica to make the change smaller at the moment
+    pdfmetrics.registerFont(TTFont('Helvetica', regular))
+    pdfmetrics.registerFont(TTFont('Helvetica-Bold', bold))
+    _fonts_registered = True
 
 def _get_spsv_logo():
     # STATIC_ROOT is a python 'Path' object
     return settings.STATIC_ROOT / 'sasse/spsv-logo.jpg'
 
 def _create_style_sheet(baseFontSize=8):
+    _register_fonts()
     stylesheet = StyleSheet1()
     stylesheet.add(ParagraphStyle(name='left', fontName='Helvetica',
         fontSize=baseFontSize, alignment=TA_LEFT, splitLongWords=False))
