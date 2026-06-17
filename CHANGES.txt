@@ -1,3 +1,26 @@
+Version 3.4.3 (17. Juni 2026)
+
+- fix Startliste: Neues Mitglied funktioniert wieder. Ein Unique Violation
+  Error auf der Mitgliedernummer, weil SQL MAX auf einem String den falschen
+  Wert zurückgibt.
+
+- pdf: Stelle Zeichen ausserhalb Latin1 korrekt dar. Zum Beispiel ein
+  tschechischer Name "Jiřina" wird nun korrekt dargestellt.
+
+- Sektionsfahren: Bern Rayon dazugefügt
+
+- Import: Verbesserter SWV Import
+  - Ignore die Pontonierfahrvereine, die im SWV erfasst wurden
+  - Korrektes Character Encoding der JSON Datei
+
+- Doppelte Doppelstarterkontrolle mit Berücksichtingung Kategorie und Kontrolle Startnummer
+
+- Doppelstarter Startnummer muss grösser sein als normale Startnummer. Infotext
+  über Fehler.
+
+- Doppelte Doppelstarterkontrolle mit Berücksichtingung Kategorie/Disziplin
+
+
 Version 3.4.2 (29. Juni 2025)
 
 - Einzelfahren: Wenn Kranzlimite als erstes auf einer neuen Seite kommt, wurde
